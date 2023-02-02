@@ -42,8 +42,8 @@ window.onload = function () {
         if (fullName.value.trim().length > 0) {
             if (!fullName.value.match(/^\s*[a-z]{2,}\s+[a-z]{2,}\s*$/ig)) {
                 fullName.nextElementSibling.innerText = 'Full Name can only contain letters and spaces';
-                // fullName.style.border = '1px solid #DD3142';
-                // fullName.nextElementSibling.style.visibility = 'visible';
+                fullName.style.border = '1px solid #DD3142';
+                fullName.nextElementSibling.style.visibility = 'visible';
                 return false;
             } else {
                 fullName.nextElementSibling.style.visibility = 'hidden';
@@ -58,8 +58,8 @@ window.onload = function () {
         if (username.value.trim().length > 0) {
             if (!username.value.match(/^\s*[a-z0-9_-]{3,15}\s*$/ig)) {
                 username.nextElementSibling.innerText = 'Your username can only contain letters, numbers, underscores and dashes';
-                // username.style.border = '1px solid #DD3142';
-                // username.nextElementSibling.style.visibility = 'visible';
+                username.style.border = '1px solid #DD3142';
+                username.nextElementSibling.style.visibility = 'visible';
                 return false;
             } else {
                 username.nextElementSibling.style.visibility = 'hidden';
@@ -73,8 +73,8 @@ window.onload = function () {
         if (fields[2].value.trim().length > 0) {
             if (!fields[2].value.match(/^\s*\w{3,}@[a-z]+\.[a-z]{2,6}\s*$/ig)) {
                 fields[2].nextElementSibling.innerText = 'E-mail can only contain letters, numbers, underscore, dot and @';
-                // fields[2].style.border = '1px solid #DD3142';
-                // fields[2].nextElementSibling.style.visibility = 'visible';
+                fields[2].style.border = '1px solid #DD3142';
+                fields[2].nextElementSibling.style.visibility = 'visible';
                 return false;
             } else {
                 fields[2].nextElementSibling.style.visibility = 'hidden';
@@ -88,8 +88,8 @@ window.onload = function () {
         if (fields[3].value.trim().length > 0) {
             if (!fields[3].value.match(/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,20}/ig)) {
                 fields[3].nextElementSibling.innerText = 'Password must contain at least 8 characters, one uppercase letter, one number, one wildcard';
-                // fields[3].style.border = '1px solid #DD3142';
-                // fields[3].nextElementSibling.style.visibility = 'visible';
+                fields[3].style.border = '1px solid #DD3142';
+                fields[3].nextElementSibling.style.visibility = 'visible';
                 return false;
             } else {
                 fields[3].nextElementSibling.style.visibility = 'hidden';
@@ -99,58 +99,51 @@ window.onload = function () {
         }
     }
 
+    let f5 = function () {
+        if (fields[4].value.trim().length > 0) {
+            if (f4() === true && fields[4].value === fields[3].value) {
+                fields[4].nextElementSibling.style.visibility = 'hidden';
+                fields[4].style.border = '';
+                return true;
+            } else {
+                fields[4].nextElementSibling.innerText = 'Passwords do not match';
+                fields[4].style.border = '1px solid #DD3142';
+                fields[4].nextElementSibling.style.visibility = 'visible';
+                return false;
+            }
+        }
+    }
 
+    let f6 = function () {
+        if (checkbox.checked) {
+            checkbox.parentElement.nextElementSibling.style.visibility = 'hidden';
+            return true;
+        } else {
+            checkbox.parentElement.nextElementSibling.style.visibility = 'visible';
+            return false;
+        }
+    }
 
-
+    
     let checkFieldsPresence = function () {
 
         for (let i = 0; i < fields.length - 1; i++) {
-            console.log(fields[i].value.trim().length);
+            // console.log(fields[i].value.trim().length);
             if (fields[i].value.trim().length < 1) {
                 // fields[i].nextElementSibling.innerText = 'Full Name can only contain letters and spaces';
                 fields[i].style.border = '1px solid #DD3142';
                 fields[i].nextElementSibling.style.visibility = 'visible';
                 // return false;
 
-            } else {
-                // f1();
-                // console.log(f1());
-                // f2();
-                // console.log(f2());
             }
-
         }
-
-        // if () {
-        //
-        // }
-
         f1();
         f2();
         f3();
         f4();
-
-        // return true;
-
-        // if (fields[3].value !== fields[4].value) {
-        //     fields[4].nextElementSibling.innerText = 'Password must contain at least 8 characters, one uppercase letter, one number, one wildcard';
-        //     fields[4].style.border = '1px solid #DD3142';
-        //     fields[4].nextElementSibling.style.visibility = 'visible';
-        //     // return false;
-        // } else {
-        //     fields[4].nextElementSibling.style.visibility = 'hidden';
-        //     fields[4].style.border = '';
-        //     // return true;
-        // }
-
-
-        if (checkbox.checked) {
-            checkbox.parentElement.nextElementSibling.style.visibility = 'hidden';
-        } else {
-            checkbox.parentElement.nextElementSibling.style.visibility = 'visible';
-        }
-
-        // return true;
+        f5();
+        f6();
+        return true;
     };
 
 
@@ -246,54 +239,45 @@ window.onload = function () {
     // };
 
     let isValidForm = function () {
-        return (
-            checkFieldsPresence()
-            &&
-            f1()
-            &&
-            f2()
-            // checkPasswordLength() &&
-            // checkPasswordMatch() &&
-            // checkCheckbox()
-        );
-
+        return (checkFieldsPresence() && f1() && f2() && f3() && f4() && f5() && f6 ());
     };
+
 
 
     form.onsubmit = (event) => {
         event.preventDefault();
         if (isValidForm()) {
-            // popup.style.display = "flex";
+            popup.style.display = "flex";
         }
     };
 
-    // ok.addEventListener('click', createAccount);
-    // let link = document.getElementsByClassName('link')[0].children[0];
-    // link.addEventListener('click', createAccount);
+    ok.addEventListener('click', createAccount);
+    let link = document.getElementsByClassName('link')[0].children[0];
+    link.addEventListener('click', createAccount);
 
-    // function createAccount() {
-    //     popup.style.display = "none";
-    //
-    //     for (let i = 0; i < fields.length; i++) {
-    //         fields[i].value = null;
-    //         fields[5].checked = false;
-    //     }
-    //
-    //     document.getElementsByTagName('h1')[0].innerText = "Log in to the system";
-    //     fields[0].parentElement.remove();
-    //     fields[1].parentElement.remove();
-    //     fields[2].parentElement.remove();
-    //     fields[2].parentElement.remove();
-    //     signUp.children[0].innerText = "Sign In";
-    //     link.remove();
-    //
-    //     form.onsubmit = (event) => {
-    //         event.preventDefault();
-    //         if (!username.value || !fields[1].value) {
-    //             alert("Fill in all fields");
-    //         } else {
-    //             alert(`Welcome, ${username.value}!`);
-    //         }
-    //     }
-    // }
+    function createAccount() {
+        popup.style.display = "none";
+
+        for (let i = 0; i < fields.length; i++) {
+            fields[i].value = null;
+            fields[5].checked = false;
+        }
+
+        document.getElementsByTagName('h1')[0].innerText = "Log in to the system";
+        fields[0].parentElement.remove();
+        fields[1].parentElement.remove();
+        fields[2].parentElement.remove();
+        fields[2].parentElement.remove();
+        signUp.children[0].innerText = "Sign In";
+        link.remove();
+
+        form.onsubmit = (event) => {
+            event.preventDefault();
+            if (!username.value || !fields[1].value) {
+                alert("Fill in all fields");
+            } else {
+                alert(`Welcome, ${username.value}!`);
+            }
+        }
+    }
 }
