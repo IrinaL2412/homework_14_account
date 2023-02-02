@@ -68,7 +68,7 @@ h1 {
     max-width: 452px;
 }
 
-.form label:not(:nth-child(6)) {
+.form label {
     display: flex;
     flex-direction: column;
 }
@@ -89,6 +89,14 @@ h1 {
     font-family: 'Nunito-Bold', sans-serif;
 }
 
+.input-error {
+    display: block;
+    color: #DD3142;
+    font-size: 14px;
+    margin-top: 2px;
+    visibility: hidden;
+}
+
 .form label span:not(:last-child) {
     font-size: 16px;
     color: #C6C6C4;
@@ -96,9 +104,15 @@ h1 {
 }
 
 .agree {
-    display: flex;
-    align-items: center;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     margin-top: 10px;
+}
+.agree-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /*justify-content: center;*/
 }
 
 .agree span {
