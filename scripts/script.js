@@ -7,6 +7,8 @@ window.onload = function () {
     let ok = document.getElementsByTagName('button')[1];
     let form = document.getElementsByClassName('form')[0];
     let fields = document.getElementsByTagName('input');
+
+
     // let hasError = false;
 
 
@@ -38,7 +40,7 @@ window.onload = function () {
     // console.log(fullName.value.match(/^\s*[A-Z][a-z]+\s+[A-Z][a-z]+\s*$/));
 
 
-    let f1 = function () {
+    let fullNameValidation = function () {
         if (fullName.value.trim().length > 0) {
             if (!fullName.value.match(/^\s*[a-z]{2,}\s+[a-z]{2,}\s*$/ig)) {
                 fullName.nextElementSibling.innerText = 'Full Name can only contain letters and spaces';
@@ -54,7 +56,7 @@ window.onload = function () {
 
     }
 
-    let f2 = function () {
+    let userNameValidation = function () {
         if (username.value.trim().length > 0) {
             if (!username.value.match(/^\s*[a-z0-9_-]{3,15}\s*$/ig)) {
                 username.nextElementSibling.innerText = 'Your username can only contain letters, numbers, underscores and dashes';
@@ -69,7 +71,7 @@ window.onload = function () {
         }
     }
 
-    let f3 = function () {
+    let emailValidation = function () {
         if (fields[2].value.trim().length > 0) {
             if (!fields[2].value.match(/^\s*\w{3,}@[a-z]+\.[a-z]{2,6}\s*$/ig)) {
                 fields[2].nextElementSibling.innerText = 'E-mail can only contain letters, numbers, underscore, dot and @';
@@ -84,7 +86,7 @@ window.onload = function () {
         }
     }
 
-    let f4 = function () {
+    let passwordValidation = function () {
         if (fields[3].value.trim().length > 0) {
             if (!fields[3].value.match(/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,20}/ig)) {
                 fields[3].nextElementSibling.innerText = 'Password must contain at least 8 characters, one uppercase letter, one number, one wildcard';
@@ -99,9 +101,9 @@ window.onload = function () {
         }
     }
 
-    let f5 = function () {
+    let checkPasswordMatch = function () {
         if (fields[4].value.trim().length > 0) {
-            if (f4() === true && fields[4].value === fields[3].value) {
+            if (passwordValidation() === true && fields[4].value === fields[3].value) {
                 fields[4].nextElementSibling.style.visibility = 'hidden';
                 fields[4].style.border = '';
                 return true;
@@ -114,7 +116,7 @@ window.onload = function () {
         }
     }
 
-    let f6 = function () {
+    let checkboxValidation = function () {
         if (checkbox.checked) {
             checkbox.parentElement.nextElementSibling.style.visibility = 'hidden';
             return true;
@@ -124,7 +126,7 @@ window.onload = function () {
         }
     }
 
-    
+
     let checkFieldsPresence = function () {
 
         for (let i = 0; i < fields.length - 1; i++) {
@@ -137,12 +139,12 @@ window.onload = function () {
 
             }
         }
-        f1();
-        f2();
-        f3();
-        f4();
-        f5();
-        f6();
+        fullNameValidation();
+        userNameValidation();
+        emailValidation();
+        passwordValidation();
+        checkPasswordMatch();
+        checkboxValidation();
         return true;
     };
 
@@ -239,16 +241,63 @@ window.onload = function () {
     // };
 
     let isValidForm = function () {
-        return (checkFieldsPresence() && f1() && f2() && f3() && f4() && f5() && f6 ());
+        return (checkFieldsPresence() &&
+            fullNameValidation() &&
+            userNameValidation() &&
+            emailValidation() &&
+            passwordValidation() &&
+            checkPasswordMatch() &&
+            checkboxValidation());
     };
-
 
 
     form.onsubmit = (event) => {
         event.preventDefault();
         if (isValidForm()) {
+
+            let client = {
+                full_Name: fullName.value,
+                username: username.value,
+                email: fields[2].value,
+                password: fields[3].value,
+            }
+            // console.log(client);
+
+            // let clients = localStorage.getItem('clients');
+            // if (clients) {
+            //     let clientsArray = JSON.parse(clients);
+            //     clientsArray.push(client);
+            //     localStorage.setItem('clients', JSON.stringify(clientsArray));
+            // } else {
+            //     let clientsArray = [];
+            //     clientsArray.push(client);
+            //     localStorage.setItem('clients', JSON.stringify(clientsArray));
+            // }
+
+            let clients = localStorage.getItem('clients');
+            if (clients) {
+                clients = JSON.parse(clients);
+            }
+            else {
+                clients = [];
+            }
+            clients.push(client);
+            localStorage.setItem('clients', JSON.stringify(clients));
+
+            // localStorage.setItem('client', JSON.stringify(clients));
+
+            // console.log(clients);
+            // console.log(clientsArray);
+            console.log(localStorage);
+
+
             popup.style.display = "flex";
+
+
         }
+        // console.log(client);
+
+
     };
 
     ok.addEventListener('click', createAccount);
