@@ -277,8 +277,7 @@ window.onload = function () {
             let clients = localStorage.getItem('clients');
             if (clients) {
                 clients = JSON.parse(clients);
-            }
-            else {
+            } else {
                 clients = [];
             }
             clients.push(client);
@@ -303,13 +302,17 @@ window.onload = function () {
     ok.addEventListener('click', createAccount);
     let link = document.getElementsByClassName('link')[0].children[0];
     link.addEventListener('click', createAccount);
+    // link.onsubmit = () => {
+    //     createAccount();
+    // }
 
     function createAccount() {
         popup.style.display = "none";
 
         for (let i = 0; i < fields.length; i++) {
             fields[i].value = null;
-            fields[5].checked = false;
+            // fields[5].checked = false;
+            fields[5].checked = true;
         }
 
         document.getElementsByTagName('h1')[0].innerText = "Log in to the system";
@@ -318,15 +321,38 @@ window.onload = function () {
         fields[2].parentElement.remove();
         fields[2].parentElement.remove();
         signUp.children[0].innerText = "Sign In";
-        link.remove();
+        // link.remove();
+        link.innerText = 'Registration';
 
         form.onsubmit = (event) => {
             event.preventDefault();
-            if (!username.value || !fields[1].value) {
-                alert("Fill in all fields");
-            } else {
-                alert(`Welcome, ${username.value}!`);
+
+            let f10 = function () {
+                for (let i = 0; i < fields.length; i++) {
+                    console.log(fields[i]);
+                    // console.log(fields[i].value.trim().length);
+                    if (fields[i].value.trim().length < 1) {
+                        // fields[i].nextElementSibling.innerText = 'Full Name can only contain letters and spaces';
+                        fields[i].style.border = '1px solid #DD3142';
+                        fields[i].nextElementSibling.style.visibility = 'visible';
+                        // return false;
+
+                    }
+                }
+
+                userNameValidation();
+                passwordValidation();
             }
+
+            f10();
+
+            // checkFieldsPresence();
+
+            // if (!username.value || !fields[1].value) {
+            //     alert("Fill in all fields");
+            // } else {
+            //     alert(`Welcome, ${username.value}!`);
+            // }
         }
     }
 }
